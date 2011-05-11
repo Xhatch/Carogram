@@ -9,9 +9,9 @@ $(document).ready(function() {
 
   $('#login-button').click(function(e) {
     // ignore if sesson already exists
-    if (IG._session) {
-      return;
-    }
+    // if (IG._session) {
+    //   return;
+    // }
     
     // client side access_token flow (implicit)
     IG.login(function (response) {
@@ -23,6 +23,7 @@ $(document).ready(function() {
     }, {scope: ['comments', 'likes']});
   });
   
+  /*
   $('#logout-button').click(function(e) {
     // ignore if sesson doesn't exists
     if (IG._session == null) {
@@ -36,5 +37,6 @@ $(document).ready(function() {
       }
     });
   });
+  */
   
 });
