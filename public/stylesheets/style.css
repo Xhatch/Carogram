@@ -98,9 +98,12 @@ p {
 }
 
 header {
+
+  width: 500px;
   text-align: center;
-  margin-bottom: 20px;
-	margin-top: 20px;
+/*  margin-bottom: 20px;
+  margin-top: 20px;*/
+  margin: 20px auto;
 }
 
 #container{
@@ -112,8 +115,8 @@ header {
 
 #wrapper {
 	width: 500px;
-	margin-left: auto;
-	margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 	z-index: 20;
 }
 
@@ -125,8 +128,8 @@ header {
 
 #content {
   width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+/*  margin-left: auto;
+  margin-right: auto;*/
 	float: left;
 }
 
