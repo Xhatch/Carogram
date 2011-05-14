@@ -15,31 +15,74 @@
 <div id="masthead"></div>
 <header>
   <div class="header-title">Carogram</div>
-  <div>A quick and easy way to view photos of your feed + popular ones...slide carousel style!<br>Connect with your instagram account.</div>
+  <div id="hints">Hey, new photos have been uploaded on Instagram!<br>Hit "reload" to reset your Carogram.</div><div id="reload"><button class="submit">Reload</button></div>
 </header>
 <div id="wrapper">
   <div id="content">
     <div id="photo"><img src="images/placeholder.png" height="500" width="500"/></div>
     <div id="meta">
-      <div id="avatar"><img src="http://images.instagram.com/profiles/profile_1147973_75sq_1302727105.jpg" height="100" width="100"/></div>
+      <div id="avatar"><img class="dropshadow" src="http://images.instagram.com/profiles/profile_1147973_75sq_1302727105.jpg" height="100" width="100"/></div>
       <div id="description"><span class="author">Photo by David Hoang</span><br><br>I took a nap here today.</div>
       <div id="likes"><img src="images/like.png" height="13" width="13"/> LIKES: 321</div>
     </div>
     <div class="clear"></div>
+    <div id="typecomment">
+        <p class="author">Type your comment</p>
+          <form>
+          <div style="float: left;"><input id="leavecomment" type="text" name="firstname" /></div>
+          <div><button id="submit-button" class="submit">Submit</button></div>
+          </form>
+    </div>
     <div id="comments">
       <ul>
-        <li>Type your comment</li>
         <li>
-          <form>
-          <input id="leavecomment" type="text" name="firstname" />
-          </form>
+          <div>
+            <div id="comment-user">
+              <a href="#"><img class="dropshadow" src="images/commentor.jpg" border="0"/></a>
+            </div>
+            <div id="comment-body">
+              <p class="author">@knitpurl</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non molestie lectus. Sed sollicitudin pellentesque dapibus. Praesent pellentesque justo id neque luctus pellentesque.</p>
+            </div>
+            <div class="clear"></div>
+          </div>
         </li>
         <li>
-          <p class="author">Username said</p>
-          <p>LIKE!</p>
+          <div>
+            <div id="comment-user">
+              <a href="#"><img class="dropshadow" src="images/commentor.jpg" border="0"/></a>
+            </div>
+            <div id="comment-body">
+              <p class="author">@knitpurl</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non molestie lectus. Sed sollicitudin pellentesque dapibus. Praesent pellentesque justo id neque luctus pellentesque.</p>
+            </div>
+            <div class="clear"></div>
+          </div>
         </li>
-        <li>Item 1</li>
-        <li>Item 1</li>
+        <li>
+          <div>
+            <div id="comment-user">
+              <a href="#"><img class="dropshadow" src="images/commentor.jpg" border="0"/></a>
+            </div>
+            <div id="comment-body">
+              <p class="author">@knitpurl</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non molestie lectus. Sed sollicitudin pellentesque dapibus. Praesent pellentesque justo id neque luctus pellentesque.</p>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div id="comment-user">
+              <a href="#"><img class="dropshadow" src="images/commentor.jpg" border="0"/></a>
+            </div>
+            <div id="comment-body">
+              <p class="author">@knitpurl</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi non molestie lectus. Sed sollicitudin pellentesque dapibus. Praesent pellentesque justo id neque luctus pellentesque.</p>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </li>
       </ul>
     </div>
     <div class="clear"></div>
