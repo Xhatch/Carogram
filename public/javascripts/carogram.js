@@ -8,7 +8,10 @@ var PHOTO_LEFT_BOUNDARY = 480;
 var KEYCODE_LEFT_ARROW = 37;
 var KEYCODE_RIGHT_ARROW = 39;
 
+var PHOTO_PLACEHOLDER = '/images/placeholder.png';
+
 var igSelfFeed = null;
+var igActiveIndex = 0;
 
 $(document).ready(function() {
   // Initial layout adjustment
@@ -60,31 +63,118 @@ function handleFeed(feed) {
   
   console.log(igSelfFeed.data.length);
   
+  // Preload feed photos
+  var images = _.map(igSelfFeed.data, function(value, key, list) {
+    return value.images.standard_resolution.url;
+  });
+  preload(images);
+  
+  // Set main photo
   var first = igSelfFeed.data[0];
   var firstURL = first.images.standard_resolution.url;
-  $('#photo > img').attr('src', firstURL);
+  setMainPhoto(firstURL);
   
+  // Set right photo
   var second = igSelfFeed.data[1];
   var secondURL = second.images.standard_resolution.url;
-  $('#forward-image > img').attr('src', secondURL);
+  setRightPhoto(secondURL);
 }
 
 function nextPhoto() {
-  console.log('next');
-  //$('#content').effect('drop', 500);
-  $('#wrapper').animate({
-    opacity: 0.25,
-    marginLeft: 0
-  }, 1500);
+  igActiveIndex++;
+  console.log('next: ' + igActiveIndex);
+  
+  // Check if additional feed data is needed
+  if (igActiveIndex == (igSelfFeed.data.length - 1)) {
+    // paging required for more photos
+    console.log('page photos');
+  }
+  
+  swapNext();
+
+  // $('#wrapper').animate({
+  //   opacity: 0.25,
+  //   marginLeft: 0
+  // }, 1500);
 }
 
 function previousPhoto() {
-  console.log('prev');
+  // Cannot move past the first image
+  if (igActiveIndex == 0) {
+    return;
+  }
   
-  $('#wrapper').animate({
-    opacity: 0.25,
-    marginRight: 0
-  }, 1500);
+  igActiveIndex--;
+  console.log('prev: ' + igActiveIndex);
+  
+  swapPrevious();
+  
+  // $('#wrapper').animate({
+  //   opacity: 0.25,
+  //   marginRight: 0
+  // }, 1500);
+}
+
+function getMainPhoto() {
+  return $('#photo > img').attr('src');
+}
+
+function setMainPhoto(url) {
+  $('#photo > img').attr('src', url);
+}
+
+function setLeftPhoto(url) {
+  $('#back-image > img').attr('src', url);
+}
+
+function getLeftPhoto() {
+  return $('#back-image > img').attr('src');
+}
+
+function setRightPhoto(url) {
+  $('#forward-image > img').attr('src', url);
+}
+
+function getRightPhoto() {
+  return $('#forward-image > img').attr('src');
+}
+
+function swapNext() {
+  // Left photo
+  setLeftPhoto( getMainPhoto() );
+  
+  // Main photo
+  setMainPhoto( getRightPhoto() );
+  
+  // Right photo
+  var right = igSelfFeed.data[igActiveIndex+1];
+  setRightPhoto(right.images.standard_resolution.url);
+}
+
+function swapPrevious() {
+  // Right photo
+  setRightPhoto( getMainPhoto() );
+  
+  // Main photo
+  setMainPhoto( getLeftPhoto() );
+  
+  // Left photo
+  if (igActiveIndex == 0) {
+    // Placeholder
+    setLeftPhoto(PHOTO_PLACEHOLDER);
+  } else {
+    // Photo
+    var left = igSelfFeed.data[igActiveIndex-1];
+    setLeftPhoto(left.images.standard_resolution.url);
+  }
+}
+
+function preload(arrayOfImages) {
+  $(arrayOfImages).each(function(){
+    $('<img/>')[0].src = this;
+    // Alternatively you could use:
+    // (new Image()).src = this;
+  });
 }
 
 function adjustLayout() {
