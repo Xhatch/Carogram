@@ -10,7 +10,8 @@ var KEYCODE_RIGHT_ARROW = 39;
 
 var PHOTO_PLACEHOLDER = '/images/placeholder.png';
 
-var igSelfFeed = null;
+var igSelfFeedData = [];
+var igPaginationURL = null;
 var igActiveIndex = 0;
 
 $(document).ready(function() {
@@ -59,35 +60,40 @@ $(document).ready(function() {
 });
 
 function handleFeed(feed) {
-  igSelfFeed = feed;
+  igSelfFeedData = igSelfFeedData.concat(feed.data);
+  igPaginationURL = feed.pagination.next_url;
   
-  console.log(igSelfFeed.data.length);
+  console.log(igSelfFeedData.length);
   
-  // Preload feed photos
-  var images = _.map(igSelfFeed.data, function(value, key, list) {
+  // Preload NEW (feed.data) feed photos
+  var images = _.map(feed.data, function(value, key, list) {
     return value.images.standard_resolution.url;
   });
   preload(images);
   
-  // Set main photo
-  var first = igSelfFeed.data[0];
-  var firstURL = first.images.standard_resolution.url;
-  setMainPhoto(firstURL);
-  
-  // Set right photo
-  var second = igSelfFeed.data[1];
-  var secondURL = second.images.standard_resolution.url;
-  setRightPhoto(secondURL);
+  // Initial load?
+  if (igActiveIndex == 0) {
+    // Set main photo
+    var first = igSelfFeedData[0];
+    var firstURL = first.images.standard_resolution.url;
+    setMainPhoto(firstURL);
+
+    // Set right photo
+    var second = igSelfFeedData[1];
+    var secondURL = second.images.standard_resolution.url;
+    setRightPhoto(secondURL);
+  }
 }
 
 function nextPhoto() {
   igActiveIndex++;
   console.log('next: ' + igActiveIndex);
   
-  // Check if additional feed data is needed
-  if (igActiveIndex == (igSelfFeed.data.length - 1)) {
+  // Check if additional feed data is needed (page early)
+  if (igActiveIndex == (igSelfFeedData.length - 5)) {
     // paging required for more photos
     console.log('page photos');
+    $.get(igPaginationURL, {}, function(data) {}, 'script');
   }
   
   swapNext();
@@ -147,7 +153,7 @@ function swapNext() {
   setMainPhoto( getRightPhoto() );
   
   // Right photo
-  var right = igSelfFeed.data[igActiveIndex+1];
+  var right = igSelfFeedData[igActiveIndex+1];
   setRightPhoto(right.images.standard_resolution.url);
 }
 
@@ -164,7 +170,7 @@ function swapPrevious() {
     setLeftPhoto(PHOTO_PLACEHOLDER);
   } else {
     // Photo
-    var left = igSelfFeed.data[igActiveIndex-1];
+    var left = igSelfFeedData[igActiveIndex-1];
     setLeftPhoto(left.images.standard_resolution.url);
   }
 }
