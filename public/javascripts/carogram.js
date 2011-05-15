@@ -73,10 +73,11 @@ function handleFeed(feed) {
   
   // Initial load?
   if (igActiveIndex == 0) {
-    // Set main photo
+    // Set main photo & associated data (likes, comments, etc)
     var first = igSelfFeedData[0];
     var firstURL = first.images.standard_resolution.url;
     setMainPhoto(firstURL);
+    setMainData();
 
     // Set right photo
     var second = igSelfFeedData[1];
@@ -151,6 +152,7 @@ function swapNext() {
   
   // Main photo
   setMainPhoto( getRightPhoto() );
+  setMainData();
   
   // Right photo
   var right = igSelfFeedData[igActiveIndex+1];
@@ -163,6 +165,7 @@ function swapPrevious() {
   
   // Main photo
   setMainPhoto( getLeftPhoto() );
+  setMainData();
   
   // Left photo
   if (igActiveIndex == 0) {
@@ -173,6 +176,57 @@ function swapPrevious() {
     var left = igSelfFeedData[igActiveIndex-1];
     setLeftPhoto(left.images.standard_resolution.url);
   }
+}
+
+function setMainData() {
+  var entry = igSelfFeedData[igActiveIndex];
+  
+  updateLikesCount( getLikesCount(entry) );
+  updateAuthorUsername( '@'+getAuthorUsername(entry) );
+  updateCaption( getCaption(entry) );
+  updateComments( getComments(entry) );
+}
+
+// - Interface Updating -//
+
+function updateAuthorUsername(username) {
+  $('#post-username').html(username);
+}
+
+function updateLikesCount(count) {
+  $('#likes-count').html(count);
+}
+
+function updateCaption(caption) {
+  $('#post-caption').html(caption);
+}
+
+function updateComments(comments) {
+  $.each(comments, function(index, value) {
+    var comment = $('#comment-template').clone();
+    comment.find('.author').html('@'+value.from.username);
+    comment.find('#comment-user img').attr('src', value.from.profile_picture);
+    comment.find('.comment-text').html(value.text);
+    comment.show().appendTo('#comments > ul');
+  });
+}
+
+// - Entry Parsing - //
+
+function getAuthorUsername(entry) {
+  return entry.user.username;
+}
+
+function getLikesCount(entry) {
+  return entry.likes.count;
+}
+
+function getCaption(entry) {
+  return entry.caption ? entry.caption.text : '';
+}
+
+function getComments(entry) {
+  return entry.comments.data;
 }
 
 function preload(arrayOfImages) {

@@ -311,11 +311,20 @@ button.submit:active {
 	margin-top: 10px;
 }
 
-#comment-user{
+#comment-template {
+  display: none;
+}
+
+#comment-user {
 	border: 1px solid black;
 	width: 75px;
 	height: 75px;
 	float: left;
+}
+
+#comment-user img {
+  width: 75px;
+  height: 75px;
 }
 
 #comment-body {
