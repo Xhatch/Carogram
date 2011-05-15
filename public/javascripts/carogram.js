@@ -183,6 +183,7 @@ function setMainData() {
   
   updateLikesCount( getLikesCount(entry) );
   updateAuthorUsername( '@'+getAuthorUsername(entry) );
+  updateAuthorPicture( getAuthorPicture(entry) );
   updateCaption( getCaption(entry) );
   updateComments( getComments(entry) );
 }
@@ -191,6 +192,10 @@ function setMainData() {
 
 function updateAuthorUsername(username) {
   $('#post-username').html(username);
+}
+
+function updateAuthorPicture(url) {
+  $('#avatar > img').attr('src', url);
 }
 
 function updateLikesCount(count) {
@@ -211,7 +216,8 @@ function updateComments(comments) {
     comment.find('.author').html('@'+value.from.username);
     comment.find('#comment-user img').attr('src', value.from.profile_picture);
     comment.find('.comment-text').html(value.text);
-    comment.show().appendTo('#comments > ul');
+    comment.appendTo('#comments > ul');
+    comment.show();
   });
 }
 
@@ -219,6 +225,10 @@ function updateComments(comments) {
 
 function getAuthorUsername(entry) {
   return entry.user.username;
+}
+
+function getAuthorPicture(entry) {
+  return entry.user.profile_picture;
 }
 
 function getLikesCount(entry) {
