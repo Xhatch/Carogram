@@ -146,6 +146,11 @@ header {
 #description {float: left; padding-left: 10px; width: 280px;}
 #likes {float: left; width: 100px; padding-left: 10px; font-size: 14px; font-weight: bold;}
 
+#likes > img {
+  width: 22px;
+  height: 22px;
+}
+
 #meta {
 	margin-top: 20px;
 }

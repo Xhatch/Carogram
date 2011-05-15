@@ -182,6 +182,7 @@ function setMainData() {
   var entry = igSelfFeedData[igActiveIndex];
   
   updateLikesCount( getLikesCount(entry) );
+  updateLikeStatus( getHasLiked(entry) );
   updateAuthorUsername( '@'+getAuthorUsername(entry) );
   updateAuthorPicture( getAuthorPicture(entry) );
   updateCaption( getCaption(entry) );
@@ -200,6 +201,11 @@ function updateAuthorPicture(url) {
 
 function updateLikesCount(count) {
   $('#likes-count').html(count);
+}
+
+function updateLikeStatus(isLiked) {
+  var likeSrc = isLiked ? '/images/like_liked.png' : '/images/like.png';
+  $('#likes > img').attr('src', likeSrc);
 }
 
 function updateCaption(caption) {
@@ -233,6 +239,10 @@ function getAuthorPicture(entry) {
 
 function getLikesCount(entry) {
   return entry.likes.count;
+}
+
+function getHasLiked(entry) {
+  return entry.user_has_liked;
 }
 
 function getCaption(entry) {
