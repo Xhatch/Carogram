@@ -202,6 +202,10 @@ function updateCaption(caption) {
 }
 
 function updateComments(comments) {
+  // Clear old
+  $('#comments li').remove();
+  
+  // Populate new
   $.each(comments, function(index, value) {
     var comment = $('#comment-template').clone();
     comment.find('.author').html('@'+value.from.username);
