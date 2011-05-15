@@ -52,8 +52,8 @@ html, body {
   height: 100%; }
 
 body {
-  font-family: tahoma, arial, sans-serif;
-	font: 14px tahoma, arial, sans-serif;
+  font-family: "brevia-1","brevia-2", helvetica, arial, sans-serif, tahoma, arial, sans-serif;
+	font-size: 14px;
 	color: #333;
 	text-rendering: optimizeLegibility;
 	background: #ababab;
@@ -83,7 +83,8 @@ p {
  }
 
 .header-title {
-  font: 60px georgia;
+  font-size: 60px;
+	font-family: "museo-1","museo-2", georgia, serif;
   margin-bottom: 20px;
 	text-align: center;
 	text-shadow: 2px 2px 2px #333;
@@ -143,12 +144,34 @@ header {
   box-shadow: 5px 5px 5px #333;
 }
 #avatar {float: left; width: 100px;}
-#description {float: left; padding-left: 10px; width: 280px;}
-#likes {float: left; width: 100px; padding-left: 10px; font-size: 14px; font-weight: bold;}
-
+#description {
+	float: left;
+	padding-left: 10px;
+	width: 265px;
+	}
+#likes {
+	float: left;
+	width: 100px;
+	height: 22px;
+	padding-left: 20px;
+	font-size: 14px;
+	font-weight: bold;
+	}
+	
+#likes-count: {
+	padding-bottom: 3px;
+}
+	
 #likes > img {
   width: 22px;
   height: 22px;
+	background: url('/images/like.png') no-repeat;
+}
+
+#likes > img:hover {
+  width: 22px;
+  height: 22px;
+	background: url('/images/like-hover.png') no-repeat;
 }
 
 #meta {
@@ -214,7 +237,11 @@ footer, .push {
 }
 
 .clear {clear: both;}
-.author {font-size: 18px; font-family: tahoma, arial, sans-serif; text-shadow: 2px 2px 2px #333;}
+.author {
+	font-size: 18px;
+	font-family: "brevia-1","brevia-2", helvetica, arial, sans-serif, tahoma, arial, sans-serif;
+	font-weight: bold;
+	}
 
 button.minimal {
   background: #e3e3e3;
