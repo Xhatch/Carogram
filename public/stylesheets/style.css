@@ -51,6 +51,9 @@ table {
 html, body {
   height: 100%; }
 
+a:link, a:hover, a:visited {color: #333; text-decoration: none; font-weight: bold;}
+a:hover {text-decoration: underline;}
+
 body {
   font-family: "brevia-1","brevia-2", helvetica, arial, sans-serif, tahoma, arial, sans-serif;
 	font-size: 14px;
@@ -84,10 +87,11 @@ p {
 
 .header-title {
   font-size: 60px;
-	font-family: "museo-1","museo-2", georgia, serif;
+	font-family: "harfang-pro-1","harfang-pro-2", georgia, serif;
   margin-bottom: 20px;
 	text-align: center;
 	text-shadow: 2px 2px 2px #333;
+	font-weight: bold;
 	color: #000;
 }
 
@@ -147,11 +151,11 @@ header {
 #description {
 	float: left;
 	padding-left: 10px;
-	width: 265px;
+	width: 270px;
 	}
 #likes {
 	float: left;
-	width: 100px;
+	width: 95px;
 	height: 22px;
 	padding-left: 20px;
 	font-size: 14px;
@@ -194,7 +198,7 @@ header {
 	border-radius: 5px;
 	border: 1px solid #787878;
 	font-size: 14px;
-	font-family: tahoma, arial, sans-serif;
+	font-family: "brevia-1","brevia-2", helvetica, arial, sans-serif, tahoma, arial, sans-serif;
 	background: url('/images/bg_comment.png') repeat;
 }
 
@@ -209,7 +213,7 @@ header {
 	font-size: 14px;
 	padding: 10px;
 	border-radius: 5px;
-	background: url('../images/bg_comment.png') repeat;
+	background: url('/images/bg_comment.png') repeat;
 }
 
 #left-content {margin-right: 30px;}
@@ -223,8 +227,8 @@ header {
 	}
 
 footer {
-  background-color: #9d9a9a;
-  border-top: 1px solid #333;
+  background: url('/images/bg_footer.png') repeat;
+  border-top: 1px solid #757575;
   text-align: center;
   padding: 20px 0px;
 	height: 10px;
