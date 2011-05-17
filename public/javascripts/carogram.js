@@ -53,10 +53,21 @@ $(document).ready(function() {
     }
   });
   
-  $.get('https://api.instagram.com/v1/users/self/feed', { 'access_token': IG._session.access_token, 'callback': 'handleFeed' }, function(data) {
-    //var json = $.parseJSON(data);
-    //console.log(json);
-  }, 'script');
+  // Comment submission events
+  $('#submit-button').bind('click', function(e) {
+    e.preventDefault();
+    
+    // Validate comment text
+    var text = getCommentText();
+    if (text.length == 0) {
+      return; // no comment
+    }
+    
+    var entry = getActiveEntry();
+    comment(getMediaId(entry), text);
+  });
+  
+  getSelfFeed();
 });
 
 function handleFeed(feed) {
@@ -179,7 +190,7 @@ function swapPrevious() {
 }
 
 function setMainData() {
-  var entry = igSelfFeedData[igActiveIndex];
+  var entry = getActiveEntry();
   
   updateLikesCount( getLikesCount(entry) );
   updateLikeStatus( getHasLiked(entry) );
@@ -187,6 +198,14 @@ function setMainData() {
   updateAuthorPicture( getAuthorPicture(entry) );
   updateCaption( getCaption(entry) );
   updateComments( getComments(entry) );
+}
+
+function getActiveEntry() {
+  return igSelfFeedData[igActiveIndex];
+}
+
+function getCommentText() {
+  return $.trim( $('#leavecomment').val() );
 }
 
 // - Interface Updating -//
@@ -229,6 +248,10 @@ function updateComments(comments) {
 
 // - Entry Parsing - //
 
+function getMediaId(entry) {
+  return entry.id;
+}
+
 function getAuthorUsername(entry) {
   return entry.user.username;
 }
@@ -253,12 +276,65 @@ function getComments(entry) {
   return entry.comments.data;
 }
 
+// - Preloader - //
+
 function preload(arrayOfImages) {
   $(arrayOfImages).each(function(){
     $('<img/>')[0].src = this;
     // Alternatively you could use:
     // (new Image()).src = this;
   });
+}
+
+// - API Requests - //
+
+function getSelfFeed() {
+  $.get('https://api.instagram.com/v1/users/self/feed', { 'access_token': IG._session.access_token, 'callback': 'handleFeed' }, function(data) {}, 'script');
+}
+
+function like(mediaId) {
+  $.ajax({
+    type: 'POST',
+    url: 'https://api.instagram.com/v1/media/'+mediaId+'/likes/',
+    data: { 'access_token': IG._session.access_token },
+    dataType: 'script'
+  });
+}
+
+function unlike(mediaId) {
+  $.ajax({
+    type: 'DELETE',
+    url: 'https://api.instagram.com/v1/media/'+mediaId+'/likes/',
+    data: { 'access_token': IG._session.access_token },
+    dataType: 'script'
+  });
+}
+
+function comment(mediaId, text) {
+  console.log('mediaId: ' + mediaId);
+  console.log('access_token: ' + IG._session.access_token);
+  
+  // $('#submit-form').ajaxSubmit({
+  //   type: 'POST',
+  //   url: 'https://api.instagram.com/v1/media/'+mediaId+'/comments',
+  //   data: { 'access_token': IG._session.access_token, 'text': text, 'callback': 'handleComment' },
+  //   dataType: 'script'
+  // });
+  
+  // $.post('https://api.instagram.com/v1/media/'+mediaId+'/comments', { 'access_token': IG._session.access_token, 'text': text, 'callback': 'handleComment' }, function(data) {}, 'script');
+  
+  $.ajax({
+    type: 'POST',
+    url: 'https://api.instagram.com/v1/media/'+mediaId+'/comments',
+    data: { 'access_token': IG._session.access_token, 'text': text, 'callback': 'handleComment' },
+    // contentType: 'multipart/form-data',
+    dataType: 'script'
+  });
+}
+
+function handleComment(response) {
+  console.log('handleComment');
+  console.log(response);
 }
 
 function adjustLayout() {
