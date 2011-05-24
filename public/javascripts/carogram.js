@@ -10,6 +10,8 @@ var KEYCODE_RIGHT_ARROW = 39;
 
 var PHOTO_PLACEHOLDER = '/images/placeholder.png';
 
+var ANIMATION_DURATION = 300;
+
 var igSelfFeedData = [];
 var igPaginationURL = null;
 var igActiveIndex = 0;
@@ -28,7 +30,7 @@ $(document).ready(function() {
   // Check if user is authenticated
   if (!IG._session) {
     // Redirect to login
-    window.location.pathname = '/login.html';
+    window.location.pathname = '/login';
     return;
   }
   
@@ -311,8 +313,8 @@ function unlike(mediaId) {
 }
 
 function comment(mediaId, text) {
-  console.log('mediaId: ' + mediaId);
-  console.log('access_token: ' + IG._session.access_token);
+  // console.log('mediaId: ' + mediaId);
+  // console.log('access_token: ' + IG._session.access_token);
   
   // $('#submit-form').ajaxSubmit({
   //   type: 'POST',
@@ -325,11 +327,41 @@ function comment(mediaId, text) {
   
   $.ajax({
     type: 'POST',
-    url: 'https://api.instagram.com/v1/media/'+mediaId+'/comments',
+    //url: 'https://api.instagram.com/v1/media/'+mediaId+'/comments',
+    url: '/media/'+mediaId+'/comments',
     data: { 'access_token': IG._session.access_token, 'text': text, 'callback': 'handleComment' },
-    // contentType: 'multipart/form-data',
-    dataType: 'script'
+    // dataType: 'script',
+    success: function(data) {
+      // Reset the form
+      $('form#submit-form').get(0).reset();
+
+      // Append the new comment
+      var comment = $('#comment-template').clone();
+      comment.find('.author').html('@'+data.from.username);
+      comment.find('#comment-user img').attr('src', data.from.profile_picture);
+      comment.find('.comment-text').html(data.text);
+      comment.appendTo('#comments > ul');
+      comment.fadeIn(ANIMATION_DURATION);
+    }
   });
+  
+  /*
+  .success(function(data) {
+    // Reset the form
+    $('form#submit-form').get(0).reset();
+    
+    // Append the new comment
+    var comment = $('#comment-template').clone();
+    comment.find('.author').html('@'+data.from.username);
+    comment.find('#comment-user img').attr('src', data.from.profile_picture);
+    comment.find('.comment-text').html(data.text);
+    comment.appendTo('#comments > ul');
+    comment.fadeIn(ANIMATION_DURATION);
+  })
+  .error(function(data) {
+    
+  });
+  */
 }
 
 function handleComment(response) {

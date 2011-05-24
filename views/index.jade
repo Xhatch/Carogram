@@ -1,0 +1,73 @@
+!!! 5
+html
+  head
+    title Carogram
+    link(href='/stylesheets/style.css', rel='stylesheet', type='text/css')
+    script(src='/javascripts/jquery.js', type='text/javascript', charset='utf-8')
+    script(src='/javascripts/underscore.js', type='text/javascript', charset='utf-8')
+    script(src='/javascripts/carogram.js', type='text/javascript', charset='utf-8')
+    script(src='/javascripts/ig.js', type='text/javascript', charset='utf-8')
+    script(type='text/javascript', src='http://use.typekit.com/mwk6vbu.js')
+    script(type='text/javascript')
+      try{Typekit.load();}catch(e){}
+  body
+    #back-image
+      img(style='opacity:0.2;filter:alpha(opacity=20);', src='images/placeholder.png', height='400', width='400')
+    #forward-image
+      img(style='opacity:0.2;filter:alpha(opacity=20);', src='images/placeholder.png', height='400', width='400')
+    #container
+      #masthead
+      header
+        .header-title Carogram
+        #hints
+          | Hey, new photos have been uploaded on Instagram!
+          br
+          | Hit "reload" to reset your Carogram.
+        #reload
+          button.submit Reload
+      #wrapper
+        #content
+          #photo
+            img(src='images/placeholder.png', height='500', width='500')
+          #meta
+            #avatar
+              img.dropshadow(src='', height='100', width='100')
+            #description
+              span.author
+                | Photo by
+                span#post-username
+              br
+              br
+              span#post-caption
+            #likes
+              img(src='')
+              | LIKES:
+              span#likes-count
+          .clear
+          #typecomment
+            p.author Type your comment
+            form#submit-form(enctype='multipart/form-data')
+              div(style='float: left;')
+                input#leavecomment(type='text', name='leavecomment')
+              div
+                button#submit-button.submit Submit
+          #comments
+            ul
+          .clear
+        .clear
+    .push
+    footer
+      | Created by
+      a(href='http://xhatch.com', target='_blank') Xhatch Interactive, LLC.
+      | ©2011
+    #ig-root
+    ul(style='display:none;')
+      li#comment-template
+        div
+          #comment-user
+            a(href='#')
+              img.dropshadow(src='', border='0')
+          #comment-body
+            p.author
+            p.comment-text
+          .clear
