@@ -114,6 +114,13 @@ function nextPhoto() {
   igActiveIndex++;
   console.log('next: ' + igActiveIndex);
   
+  // Do not swap if no more photos are in queue. Either due to end of stream
+  //  or slow paging from IG.
+  if (igActiveIndex >= igSelfFeedData.length - 1) {
+    console.log('no more photos');
+    return;
+  }
+  
   // Check if additional feed data is needed (page early)
   if (igActiveIndex == (igSelfFeedData.length - 5)) {
     // paging required for more photos
