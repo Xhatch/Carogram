@@ -69,6 +69,17 @@ $(document).ready(function() {
     comment(getMediaId(entry), text);
   });
   
+  // Like/unlike events
+  $('#likes > img').bind('click', function(e) {
+    var entry = getActiveEntry();
+    var isLiked = getHasLiked(entry);
+    if (isLiked) {
+      unlike( getMediaId(entry) );
+    } else {
+      like( getMediaId(entry) );
+    }
+  });
+  
   getSelfFeed();
 });
 
@@ -227,6 +238,17 @@ function updateLikesCount(count) {
 function updateLikeStatus(isLiked) {
   var likeSrc = isLiked ? '/images/like_liked.png' : '/images/like.png';
   $('#likes > img').attr('src', likeSrc);
+  
+  $('#likes > img').hover(
+    function() {
+      // Over
+      $(this).attr('src', '/images/like_hover.png');
+    },
+    function() {
+      // Out
+      $(this).attr('src', likeSrc);
+    }
+  );
 }
 
 function updateCaption(caption) {
@@ -266,8 +288,20 @@ function getLikesCount(entry) {
   return entry.likes.count;
 }
 
+function incLikesCount(entry) {
+  entry.likes.count += 1;
+}
+
+function decLikesCount(entry) {
+  entry.likes.count -= 1;
+}
+
 function getHasLiked(entry) {
   return entry.user_has_liked;
+}
+
+function setHasLiked(entry, value) {
+  entry.user_has_liked = value;
 }
 
 function getCaption(entry) {
@@ -297,40 +331,44 @@ function getSelfFeed() {
 function like(mediaId) {
   $.ajax({
     type: 'POST',
-    url: 'https://api.instagram.com/v1/media/'+mediaId+'/likes/',
+    url: '/media/'+mediaId+'/likes',
     data: { 'access_token': IG._session.access_token },
-    dataType: 'script'
+    success: function(data) {
+      // Update like status
+      var entry = getActiveEntry();
+      setHasLiked(entry, true);
+      updateLikeStatus(true);
+      
+      // Update likes count
+      incLikesCount(entry);
+      updateLikesCount( getLikesCount(entry) );
+    }
   });
 }
 
 function unlike(mediaId) {
   $.ajax({
     type: 'DELETE',
-    url: 'https://api.instagram.com/v1/media/'+mediaId+'/likes/',
+    url: '/media/'+mediaId+'/likes',
     data: { 'access_token': IG._session.access_token },
-    dataType: 'script'
+    success: function(data) {
+      // Update like status
+      var entry = getActiveEntry();
+      setHasLiked(entry, false);
+      updateLikeStatus(false);
+      
+      // Update likes count
+      decLikesCount(entry);
+      updateLikesCount( getLikesCount(entry) );
+    }
   });
 }
 
 function comment(mediaId, text) {
-  // console.log('mediaId: ' + mediaId);
-  // console.log('access_token: ' + IG._session.access_token);
-  
-  // $('#submit-form').ajaxSubmit({
-  //   type: 'POST',
-  //   url: 'https://api.instagram.com/v1/media/'+mediaId+'/comments',
-  //   data: { 'access_token': IG._session.access_token, 'text': text, 'callback': 'handleComment' },
-  //   dataType: 'script'
-  // });
-  
-  // $.post('https://api.instagram.com/v1/media/'+mediaId+'/comments', { 'access_token': IG._session.access_token, 'text': text, 'callback': 'handleComment' }, function(data) {}, 'script');
-  
   $.ajax({
     type: 'POST',
-    //url: 'https://api.instagram.com/v1/media/'+mediaId+'/comments',
     url: '/media/'+mediaId+'/comments',
     data: { 'access_token': IG._session.access_token, 'text': text, 'callback': 'handleComment' },
-    // dataType: 'script',
     success: function(data) {
       // Reset the form
       $('form#submit-form').get(0).reset();
@@ -344,24 +382,6 @@ function comment(mediaId, text) {
       comment.fadeIn(ANIMATION_DURATION);
     }
   });
-  
-  /*
-  .success(function(data) {
-    // Reset the form
-    $('form#submit-form').get(0).reset();
-    
-    // Append the new comment
-    var comment = $('#comment-template').clone();
-    comment.find('.author').html('@'+data.from.username);
-    comment.find('#comment-user img').attr('src', data.from.profile_picture);
-    comment.find('.comment-text').html(data.text);
-    comment.appendTo('#comments > ul');
-    comment.fadeIn(ANIMATION_DURATION);
-  })
-  .error(function(data) {
-    
-  });
-  */
 }
 
 function handleComment(response) {

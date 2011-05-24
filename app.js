@@ -47,5 +47,41 @@ app.post('/media/:mediaId/comments', function(req, res) {
   });
 });
 
+// POST /media/{media-id}/likes
+app.post('/media/:mediaId/likes', function(req, res) {
+  instagram.set('access_token', req.body.access_token);
+  instagram.media.like({
+    media_id: req.params.mediaId,
+    complete: function(data, pagination){
+      // data is a javascript object/array/null matching that shipped Instagram
+      // when available (mostly /recent), pagination is a javascript object with the pagination information
+      res.send(data);
+    },
+    error: function(errorMessage, errorObject, caller){
+      // errorMessage is the raised error message
+      // errorObject is either the object that caused the issue, or the nearest neighbor
+      // caller is the method in which the error occurred
+    }
+  });
+});
+
+// DELETE /media/{media-id}/likes
+app.del('/media/:mediaId/likes', function(req, res) {
+  instagram.set('access_token', req.body.access_token);
+  instagram.media.unlike({
+    media_id: req.params.mediaId,
+    complete: function(data, pagination){
+      // data is a javascript object/array/null matching that shipped Instagram
+      // when available (mostly /recent), pagination is a javascript object with the pagination information
+      res.send(data);
+    },
+    error: function(errorMessage, errorObject, caller){
+      // errorMessage is the raised error message
+      // errorObject is either the object that caused the issue, or the nearest neighbor
+      // caller is the method in which the error occurred
+    }
+  });
+});
+
 app.listen(3000);
 console.log('Express started on port 3000');
