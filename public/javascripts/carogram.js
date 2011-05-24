@@ -45,7 +45,17 @@ $(document).ready(function() {
     adjustLayout();
   });
   
-  // Right arrow events
+  // Keyboard events within the comment box
+  $('input#leavecomment').bind('keydown', function(e){
+    switch(e.which) {
+      case KEYCODE_LEFT_ARROW:
+      case KEYCODE_RIGHT_ARROW:
+        e.stopPropagation();
+        break;
+    }    
+  });
+  
+  // Keyboard events
   $(document).bind('keydown', function(e) {
     switch(e.which) {
       case KEYCODE_LEFT_ARROW:
