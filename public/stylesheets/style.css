@@ -153,22 +153,35 @@ header {
 	padding-left: 10px;
 	width: 270px;
 	}
+	
 #likes {
 	float: left;
-	width: 95px;
+	width: 115px;
 	height: 22px;
-	padding-left: 20px;
 	font-size: 14px;
 	font-weight: bold;
 	}
 	
 #likes-count: {
 	padding-bottom: 3px;
+	padding-left: 10px;
+}
+
+#likes-heart {
+	float: left;
+	width: 22px;
+	height: 22px;
+}
+	
+#likes-container {
+	float: left;
 }
 	
 #likes > img {
   width: 22px;
   height: 22px;
+	vertical-align: middle;
+	margin-right: 10px;
 }
 
 #likes > img:hover {
