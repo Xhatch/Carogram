@@ -44,6 +44,8 @@ html
               | LIKES:
               span#likes-count
           .clear
+          #comments
+            ul
           #typecomment
             p.author Type your comment
             form#submit-form(enctype='multipart/form-data')
@@ -51,8 +53,6 @@ html
                 input#leavecomment(type='text', name='leavecomment')
               div
                 button#submit-button.submit Submit
-          #comments
-            ul
           .clear
         .clear
     .push

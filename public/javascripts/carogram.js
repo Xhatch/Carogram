@@ -7,6 +7,10 @@ var PHOTO_LEFT_BOUNDARY = 480;
 
 var KEYCODE_LEFT_ARROW = 37;
 var KEYCODE_RIGHT_ARROW = 39;
+var KEYCODE_C = 67;
+var KEYCODE_J = 74;
+var KEYCODE_K = 75;
+var KEYCODE_L = 76;
 
 var PHOTO_PLACEHOLDER = '/images/placeholder.png';
 
@@ -45,12 +49,22 @@ $(document).ready(function() {
   $(document).bind('keydown', function(e) {
     switch(e.which) {
       case KEYCODE_LEFT_ARROW:
+      case KEYCODE_J:
         e.preventDefault();
         previousPhoto();
         break;
       case KEYCODE_RIGHT_ARROW:
+      case KEYCODE_K:
         e.preventDefault();
         nextPhoto();
+        break;
+      case KEYCODE_C:
+        e.preventDefault();
+        focusComment();
+        break;
+      case KEYCODE_L:
+        e.preventDefault();
+        toggleLike();
         break;
     }
   });
@@ -71,13 +85,7 @@ $(document).ready(function() {
   
   // Like/unlike events
   $('#likes > img').bind('click', function(e) {
-    var entry = getActiveEntry();
-    var isLiked = getHasLiked(entry);
-    if (isLiked) {
-      unlike( getMediaId(entry) );
-    } else {
-      like( getMediaId(entry) );
-    }
+    toggleLike();
   });
   
   getSelfFeed();
@@ -228,6 +236,21 @@ function getCommentText() {
   return $.trim( $('#leavecomment').val() );
 }
 
+function toggleLike() {
+  var entry = getActiveEntry();
+  var isLiked = getHasLiked(entry);
+  if (isLiked) {
+    unlike( getMediaId(entry) );
+  } else {
+    like( getMediaId(entry) );
+  }
+}
+
+function focusComment() {
+  //window.location.hash = "tehcomments";
+  $('input#leavecomment').focus();
+}
+
 // - Interface Updating -//
 
 function updateAuthorUsername(username) {
@@ -249,7 +272,7 @@ function updateLikeStatus(isLiked) {
   $('#likes > img').hover(
     function() {
       // Over
-      $(this).attr('src', '/images/like_hover.png');
+      $(this).attr('src', isLiked ? '/images/like_liked.png' : '/images/like_hover.png');
     },
     function() {
       // Out
