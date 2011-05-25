@@ -98,6 +98,12 @@ $(document).ready(function() {
     toggleLike();
   });
   
+  // Reload events
+  $('#reload > button.submit').bind('click', function(e) {
+    resetSelfFeed();
+    getSelfFeed();
+  });
+  
   getSelfFeed();
 });
 
@@ -352,6 +358,16 @@ function getComments(entry) {
   return entry.comments.data;
 }
 
+function resetSelfFeed() {
+  igSelfFeedData = [];
+  igPaginationURL = null;
+  igActiveIndex = 0;
+  
+  setLeftPhoto(PHOTO_PLACEHOLDER);
+  setMainPhoto(PHOTO_PLACEHOLDER);
+  setRightPhoto(PHOTO_PLACEHOLDER);
+}
+
 // - Preloader - //
 
 function preload(arrayOfImages) {
@@ -422,11 +438,6 @@ function comment(mediaId, text) {
       comment.fadeIn(ANIMATION_DURATION);
     }
   });
-}
-
-function handleComment(response) {
-  console.log('handleComment');
-  console.log(response);
 }
 
 function adjustLayout() {
