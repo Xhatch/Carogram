@@ -50,6 +50,10 @@ $(document).ready(function() {
     switch(e.which) {
       case KEYCODE_LEFT_ARROW:
       case KEYCODE_RIGHT_ARROW:
+      case KEYCODE_C:
+      case KEYCODE_J:
+      case KEYCODE_K:
+      case KEYCODE_L:
         e.stopPropagation();
         break;
     }    
