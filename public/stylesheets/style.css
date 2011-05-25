@@ -152,7 +152,7 @@ header {
 	float: left;
 	padding-left: 10px;
 	width: 270px;
-	}
+}
 	
 #likes {
 	float: left;
@@ -160,11 +160,6 @@ header {
 	height: 22px;
 	font-size: 14px;
 	font-weight: bold;
-	}
-	
-#likes-count: {
-	padding-bottom: 3px;
-	padding-left: 10px;
 }
 
 #likes-heart {
@@ -351,7 +346,7 @@ button.submit:active {
 	position: absolute;
 }
 
-#submit-button: {float: right;}
+#submit-button {float: right;}
 
 #typecomment{
 	margin-top: 10px;
